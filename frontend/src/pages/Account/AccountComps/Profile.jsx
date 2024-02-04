@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
+import userContext from "../../../Context/Usercontext";
+import AccountNav from "./AccountNav";
 
-const Profile = ({user, handleLogout}) => {
+const Profile = () => {
+  const { user, setUser } = useContext(userContext);
+
+  async function handleLogout() {
+    await axios.post("/logout");
+    setUser(null);
+    setRedirect("/");
+  }
+
   return (
+    <>
+    <AccountNav/>
     <div className="text-center max-m-lg mx-auto my-6">
       Logged in as {user.username} ({user.email}) <br />
       <button
@@ -11,6 +23,7 @@ const Profile = ({user, handleLogout}) => {
         Logout
       </button>
     </div>
+    </>
   );
 };
 

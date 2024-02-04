@@ -3,13 +3,15 @@ import { Link,  useParams } from "react-router-dom";
 import icons from "../../../assets/icons/icons";
 import Formpage from "./Formpage";
 import PlacesPage from "./PlacesPage";
-
+import AccountNav from "./AccountNav";
 
 
 const Places = () => {
   const { action } = useParams();
   
   return (
+    <>
+    <AccountNav/>
     <div className="mt-8 w-full lg:w-1/2 md:w-5/6 m-auto">
       {action !== "new" && (
         <div className="text-center">
@@ -27,6 +29,8 @@ const Places = () => {
         <Formpage/>
       )}
     </div>
+    
+    </>
   );
 };
 

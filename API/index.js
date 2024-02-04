@@ -26,6 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 //  imported models
 const User = require("./models/user.js");
 const Place = require("./models/places.js");
+const Booking = require("./models/booking.js")
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "l209385023jksdbnfkq039oans8925oadkjnf2389";
@@ -120,6 +121,7 @@ app.post("/upload", photoMiddleware.array("photos", 100), (req, res) => {
 app.post("/places", async (req, res) => {
   const {
     title,
+    price,
     address,
     photos,
     description,
@@ -133,8 +135,9 @@ app.post("/places", async (req, res) => {
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
     const placeDoc = await Place.create({
-      owner : userData.id,
+      owner: userData.id,
       title,
+      price,
       address,
       photos,
       description,
@@ -144,17 +147,81 @@ app.post("/places", async (req, res) => {
       checkOut,
       maxGuests,
     });
-    res.json(placeDoc)
+    res.json(placeDoc);
   });
 });
 
-app.get("/places", (req, res)=>{
+app.get("/places", (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
-    const {id} = userData
-    res.json(await Place.find({owner: id}))
-})
-})
+    const { id } = userData;
+    res.json(await Place.find({ owner: id }));
+  });
+});
+
+app.get("/places/:id", async (req, res) => {
+  const { id } = req.params;
+  const place = await Place.findById(id);
+  res.json(place);
+});
+
+app.put("/places", async (req, res) => {
+  const { token } = req.cookies;
+  const {
+    id,
+    price,
+    title,
+    address,
+    photos,
+    description,
+    perks,
+    extraInfo,
+    checkIn,
+    checkOut,
+    maxGuests,
+  } = req.body;
+
+  jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+    if (err) throw err;
+    const placeDoc = await Place.findById(id);
+
+    if (userData.id === placeDoc.owner.toString()) {
+      placeDoc.set({
+        title,
+        price,
+        address,
+        photos,
+        description,
+        perks,
+        extraInfo,
+        checkIn,
+        checkOut,
+        maxGuests,
+      });
+      await placeDoc.save();
+      res.json("ok");
+    }
+  });
+});
+
+app.get("/listings", async (req, res) => {
+  const data = await Place.find({});
+  res.json(data);
+});
+
+app.get("/listings/:id", async (req, res) => {
+  const { id } = req.params;
+  res.json(await Place.findById(id));
+});
+
+app.post("/booking", async (req, res) => {
+  const { place, checkIn, checkOut, mobile, numberOfGuests, name, price } = req.body;
+  const bookingDoc = await Booking.create({
+    place, checkIn, checkOut, mobile, numberOfGuests, name, price
+  })
+  res.json(bookingDoc)
+
+});
 
 app.listen(3000);

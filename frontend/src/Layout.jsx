@@ -4,7 +4,7 @@ import { Footer, Navbar } from "./pages";
 
 const Layout = () => {
   return (
-    <div className="p-4">
+    <div className="py-4 px-2 sm:p-4">
         <Navbar/>
         <Outlet/>
         <Footer/>

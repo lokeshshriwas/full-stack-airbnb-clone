@@ -3,10 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import icons from "../../../assets/icons/icons";
 import axios from "axios";
 
-
-const Photos = ({photos, setPhotos}) => {
+const Photos = ({ photos, setPhotos }) => {
   const [photoLink, setPhotoLink] = useState("");
-
 
   async function addPhotoByLink(e) {
     e.preventDefault();
@@ -34,6 +32,18 @@ const Photos = ({photos, setPhotos}) => {
     setPhotoLink("");
   }
 
+  function imageDelete(e, filelink){
+    e.preventDefault()
+    setPhotos([...photos.filter(photo=> photo !== filelink)])
+  }
+
+  function staredImage(e, filelink){
+    e.preventDefault()
+    setPhotos([filelink, ...photos.filter(photo=> photo !== filelink)])
+  }
+
+
+
   return (
     <>
       <div className="flex gap-2">
@@ -54,12 +64,39 @@ const Photos = ({photos, setPhotos}) => {
       <div className="mt-2 gap-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 ">
         {photos.length > 0 &&
           photos.map((link) => (
-            <div className="h-32 flex" key={uuidv4()}>
+            <div className="h-32 flex relative" key={uuidv4()}>
               <img
-                className="rounded-2xl w-full object-cover "
+                className="rounded-2xl w-full object-cover"
                 src={"http://localhost:3000/uploads/" + link}
                 alt="image"
               />
+              <button
+                onClick={(e) => {
+                  imageDelete(e, link);
+                }}
+                className="absolute bottom-1 right-2 bg-black bg-opacity-60 rounded-xl py-1 px-1 "
+              >
+                {icons.delete}
+              </button>
+              {photos[0] === link ? (
+                <button
+                onClick={(e) => {
+                    staredImage(e, link);
+                  }}
+                  className="absolute bottom-1 left-2 bg-black bg-opacity-60 rounded-xl py-1 px-1 "
+                >
+                  {icons.checkedstar}
+                </button>
+              ) : (
+                <button
+                onClick={(e) => {
+                    staredImage(e, link);
+                  }}
+                  className="absolute bottom-1 left-2 bg-black bg-opacity-60 rounded-xl py-1 px-1 "
+                >
+                  {icons.star}
+                </button>
+              )}
             </div>
           ))}
         <label className=" cursor-pointer border bg-transparent rounded-2xl p-8 text-2xl text-gray-500 w-auto flex flex-col justify-center items-center">
