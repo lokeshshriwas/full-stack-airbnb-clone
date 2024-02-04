@@ -215,13 +215,28 @@ app.get("/listings/:id", async (req, res) => {
   res.json(await Place.findById(id));
 });
 
+function getUserDataFromReq(req){
+  return new Promise ((resolve, reject)=>{
+    jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+      if (err) throw err;
+      resolve(userData)
+    });
+  });
+};
+
 app.post("/booking", async (req, res) => {
-  const { place, checkIn, checkOut, mobile, numberOfGuests, name, price } = req.body;
+  const userData =await getUserDataFromReq(req)
+  let { place, checkIn, checkOut, mobile, numberOfGuests, name, price } = req.body;
   const bookingDoc = await Booking.create({
-    place, checkIn, checkOut, mobile, numberOfGuests, name, price
+    place, checkIn, checkOut, mobile, numberOfGuests, name, price, user: userData.id
   })
   res.json(bookingDoc)
 
 });
+
+app.get("/booking", async (req, res)=>{
+  const userData = await getUserDataFromReq(req)
+  res.json( await Booking.find({user:userData.id}).populate("place"))
+})
 
 app.listen(3000);

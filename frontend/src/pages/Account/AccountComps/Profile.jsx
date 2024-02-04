@@ -1,15 +1,21 @@
 import React, { useContext } from "react";
 import userContext from "../../../Context/Usercontext";
 import AccountNav from "./AccountNav";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 const Profile = () => {
   const { user, setUser } = useContext(userContext);
+  const navigate = useNavigate()
 
   async function handleLogout() {
     await axios.post("/logout");
     setUser(null);
-    setRedirect("/");
+    navigate("/")
   }
+
+
 
   return (
     <>

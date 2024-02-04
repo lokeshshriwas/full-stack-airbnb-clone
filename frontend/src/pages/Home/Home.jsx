@@ -15,7 +15,7 @@ const Home = () => {
   return (
     <div className=" m-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-4 mt-8">
       {listing.map((list) => (
-        <Link to={`/listings/${list._id}`}>
+        <Link to={`/listings/${list._id}`} key={list._id}>
           <div className="bg-gray-500 mb-2 rounded-2xl flex">
             <img
               src={`http://localhost:3000/uploads/${list.photos[0]}`}

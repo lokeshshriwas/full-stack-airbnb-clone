@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { Login, Register, Account, Home, ListingDetail, Profile, Places, BookingsPage } from "./pages";
+import { Login, Register, Account, Home, ListingDetail, Profile, Places, BookingsPage, Bookingpage } from "./pages";
 import Layout from "./Layout";
 import axios from "axios";
 import { UserContextProvider } from "./Context/Usercontext";
@@ -19,6 +19,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/account" element={<Profile />} />
           <Route path="/account/booking" element={<BookingsPage />} />
+          <Route path="/account/booking/:id" element={<Bookingpage />} />
           <Route path="/account/places" element={<Places />} />
           <Route path="/account/places/new" element={<Formpage />} />
           <Route path="/account/places/:id" element={<Formpage />} />

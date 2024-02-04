@@ -10,4 +10,4 @@ import Bookingpage from "./Booking/BookingPage";
 import { Places, Profile } from "./Account/AccountComps";
 import AccountNav from "./Account/AccountComps/AccountNav";
 
-export { Navbar, Login, Footer, Register, Account, Home, ListingDetail, BookingsPage, Bookingpage, Profile, AccountNav, Places };
+export {Navbar, Login, Footer, Register, Account, Home, ListingDetail, BookingsPage, Bookingpage, Profile, AccountNav, Places };

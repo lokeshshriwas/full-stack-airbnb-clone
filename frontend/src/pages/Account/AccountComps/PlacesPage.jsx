@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Placeimg from "../../Booking/Placeimg";
 
 const PlacesPage = () => {
   const [places, setPlaces] = useState([]);
@@ -15,13 +16,7 @@ const PlacesPage = () => {
         <Link to={`/account/places/${place?._id}`} key={place._id}>
           <div className="bg-gray-200 p-4 rounded-2xl flex gap-4 mt-4 w-full">
             <div className="min-w-32 max-w-32 h-24 bg-gray-300 grow flex">
-              {place?.photos?.length > 0 && (
-                <img
-                  src={"http://localhost:3000/uploads/" + place.photos[0]}
-                  alt="image"
-                  className="object-cover grow "
-                />
-              )}
+              <Placeimg place={place}/>
             </div>
             <div className="shrink grow-0">
               <h2 className="text-xl font-semibold">{place.title}</h2>
