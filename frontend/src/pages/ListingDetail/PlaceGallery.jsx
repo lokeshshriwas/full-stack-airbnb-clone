@@ -23,7 +23,7 @@ const PlaceGallery = ({ details }) => {
             details.photos.map((photo) => (
               <div className="" key={photo}>
                 <img
-                  src={`http://localhost:3000/uploads/${photo}`}
+                  src={photo}
                   alt="image"
                   className="sm:w-full md:w-4/5 m-auto"
                 />
@@ -42,7 +42,7 @@ const PlaceGallery = ({ details }) => {
               setShowPhotos(true);
             }}
             className="aspect-square object-cover cursor-pointer w-full"
-            src={`http://localhost:3000/uploads/${details?.photos[0]}`}
+            src={details?.photos[0]}
             alt="image"
           />
         )}
@@ -54,7 +54,7 @@ const PlaceGallery = ({ details }) => {
               setShowPhotos(true);
             }}
             className="aspect-square cursor-pointer"
-            src={`http://localhost:3000/uploads/${details?.photos[1]}`}
+            src={details?.photos[1]}
             alt="image"
           />
         )}
@@ -65,7 +65,7 @@ const PlaceGallery = ({ details }) => {
                 setShowPhotos(true);
               }}
               className="aspect-square object-cover relative top-2 cursor-pointer"
-              src={`http://localhost:3000/uploads/${details?.photos[2]}`}
+              src={details?.photos[2]}
               alt="image"
             />
           )}

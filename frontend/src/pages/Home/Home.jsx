@@ -18,7 +18,7 @@ const Home = () => {
         <Link to={`/listings/${list._id}`} key={list._id}>
           <div className="bg-gray-500 mb-2 rounded-2xl flex">
             <img
-              src={`http://localhost:3000/uploads/${list.photos[0]}`}
+              src={list.photos[0]}
               alt="listing-image"
               className="object-cover rounded-xl aspect-square "
             />

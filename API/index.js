@@ -26,7 +26,8 @@ app.use(express.urlencoded({ extended: false }));
 //  imported models
 const User = require("./models/user.js");
 const Place = require("./models/places.js");
-const Booking = require("./models/booking.js")
+const Booking = require("./models/booking.js");
+const { storage, cloudinary } = require("./cloudinary.js");
 
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = "l209385023jksdbnfkq039oans8925oadkjnf2389";
@@ -97,23 +98,19 @@ app.post("/logout", (req, res) => {
 
 app.post("/upload-by-link", async (req, res) => {
   const { link } = req.body;
-  const newName = "Photo" + Date.now() + ".jpg";
-  await downloader.image({
-    url: link,
-    dest: __dirname + "/uploads/" + newName,
-  });
-  res.json(newName);
+  const response = await cloudinary.uploader.upload(link, {folder: "skystay"})
+  res.json(response.url)
 });
 
 const photoMiddleware = multer({ dest: "uploads" });
 
-app.post("/upload", photoMiddleware.array("photos", 100), (req, res) => {
+app.post("/upload", photoMiddleware.array("photos", 100), async (req, res) => {
   const uploadedFiles = [];
   for (let i = 0; i < req.files.length; i++) {
-    const { path, originalname } = req.files[i];
-    const newPath = path + Path.extname(originalname);
-    fs.renameSync(path, newPath);
-    uploadedFiles.push(newPath.replace("uploads\\", ""));
+    const { path } = req.files[i];
+    const response = await cloudinary.uploader.upload(path, {folder: "skystay"})
+    const {url} = response
+    uploadedFiles.push(url);
   }
   res.json(uploadedFiles);
 });

@@ -9,7 +9,7 @@ const Placeimg = ({ place, index=0, className=null }) => {
     }
   return (
     <img
-      src={"http://localhost:3000/uploads/" + place.photos[index]}
+      src={place.photos[index]}
       alt="image"
       className="object-cover grow "
     />
