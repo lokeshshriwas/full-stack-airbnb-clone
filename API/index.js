@@ -127,6 +127,7 @@ app.post("/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    category
   } = req.body;
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -143,6 +144,7 @@ app.post("/places", async (req, res) => {
       checkIn,
       checkOut,
       maxGuests,
+      category
     });
     res.json(placeDoc);
   });
@@ -177,6 +179,7 @@ app.put("/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
+    category
   } = req.body;
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -195,6 +198,7 @@ app.put("/places", async (req, res) => {
         checkIn,
         checkOut,
         maxGuests,
+        category
       });
       await placeDoc.save();
       res.json("ok");
@@ -234,6 +238,12 @@ app.post("/booking", async (req, res) => {
 app.get("/booking", async (req, res)=>{
   const userData = await getUserDataFromReq(req)
   res.json( await Booking.find({user:userData.id}).populate("place"))
+})
+
+app.get("/filter/:category" , async (req, res)=>{
+  const {category} = req.params
+  const searchResult = await Place.find({category: category})
+  res.json(searchResult)
 })
 
 app.listen(3000);

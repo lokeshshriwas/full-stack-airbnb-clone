@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import PerksLable from "./PerksLable";
 import axios from "axios";
 import Photos from "./Photos";
+import PropertyDropdown from "./Category";
 
 const Formpage = () => {
   const { id } = useParams();
@@ -16,7 +17,8 @@ const Formpage = () => {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
-  const [price, setPrice] = useState(100)
+  const [price, setPrice] = useState(100);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const navigate = useNavigate();
 
@@ -50,6 +52,7 @@ const Formpage = () => {
       checkIn,
       checkOut,
       maxGuests,
+      selectedCategory
     };
     if (id) {
       await axios.put("/places", { id, ...placeData });
@@ -75,7 +78,8 @@ const Formpage = () => {
       setCheckIn(data.checkIn);
       setCheckOut(data.checkOut);
       setMaxGuests(data.maxGuests);
-      setPrice(data.price)
+      setPrice(data.price);
+      setSelectedCategory(data.category)
     });
   }, [id]);
 
@@ -102,14 +106,20 @@ const Formpage = () => {
       />
       {preInput("Photos", "More = better")}
       <Photos photos={photos} setPhotos={setPhotos} />
-      <div>
-        {preInput("Description", "Description of the place")}
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="border rounded-2xl px-4 py-2  w-5/6 lg:w-1/2 md:w-5/6 h-56 mt-2"
-          placeholder="Description of the place"
-        />
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr]">
+        <div>
+          {preInput("Description", "Description of the place")}
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="border rounded-2xl px-4 py-2  w-5/6 lg:w-5/6 md:w-5/6 h-56 mt-2"
+            placeholder="Description of the place"
+          />
+        </div>
+        <div>
+        {preInput("Category", "Choose the property category")}
+          <PropertyDropdown selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+        </div>
       </div>
 
       <div>

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const { stringify } = require("uuid")
 
 const placeSchema = new mongoose.Schema({
     owner:{
@@ -15,6 +16,9 @@ const placeSchema = new mongoose.Schema({
         type: Array,
     },
     description: {
+        type: String,
+    },
+    category:{
         type: String,
     },
     perks: {

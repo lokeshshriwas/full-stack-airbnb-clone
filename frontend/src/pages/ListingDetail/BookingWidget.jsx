@@ -39,7 +39,7 @@ const BookingWidget = ({ details }) => {
       mobile,
       numberOfGuests,
       place: details._id,
-      price: numberOfNights * details.price,
+      price: numberOfNights * details.price * 1.18,
     });
     const bookingId = response.data._id
     console.log(bookingId)
@@ -129,7 +129,7 @@ const BookingWidget = ({ details }) => {
 
       >
         Book this place
-        {numberOfNights > 0 && <span> ₹{numberOfNights * details.price}</span>}
+        {numberOfNights > 0 && <span className="text-xl"> ₹{numberOfNights * details.price * 1.18} <span className="text-xs">Including Taxes</span></span>}
       </button>
     </div>
   );
