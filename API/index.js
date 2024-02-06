@@ -1,4 +1,7 @@
-require("dotenv").config();
+if(process.env.NODE_ENV != "production"){
+  require('dotenv').config()
+}
+const port = 3000
 const express = require("express");
 const app = express();
 const jwt = require("jsonwebtoken");
@@ -12,7 +15,7 @@ const Path = require("path");
 const fs = require("fs");
 
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://skystay.netlify.app",
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -30,7 +33,7 @@ const Booking = require("./models/booking.js");
 const { storage, cloudinary } = require("./cloudinary.js");
 
 const bcryptSalt = bcrypt.genSaltSync(10);
-const jwtSecret = "l209385023jksdbnfkq039oans8925oadkjnf2389";
+const jwtSecret = "l209385023jksdbnfkq039oans8925oadkjnf2389"
 
 mongoose.connect(process.env.MONGODB_URL);
 
@@ -288,4 +291,6 @@ app.get("/search", async (req, res) => {
 
 });
 
-app.listen(3000);
+app.listen(port, () => {
+  console.log(`Server is running on Port: ${port}`);
+});

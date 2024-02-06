@@ -19,8 +19,10 @@ import userContext from "./Context/Usercontext";
 import Formpage from "./pages/Account/AccountComps/Formpage";
 import { useContext } from "react";
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = import.meta.env.VITE_BASEURL
 axios.defaults.withCredentials = true;
+
+console.log(axios.defaults.baseURL)
 
 function App() {
   const {user} = useContext(userContext)
