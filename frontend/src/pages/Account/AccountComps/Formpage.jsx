@@ -84,7 +84,7 @@ const Formpage = () => {
   }, [id]);
 
   return (
-    <form onSubmit={savePlace}>
+    <form onSubmit={savePlace} className="w-full sm:w-5/6 md:w-3/5 m-auto bg-gray-100 p-4 rounded-3xl mt-4">
       {preInput(
         "Title",
         "Title for your place should be short and catchy as in advertisement"

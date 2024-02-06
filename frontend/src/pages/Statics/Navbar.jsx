@@ -43,7 +43,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="flex justify-between max-[380px]:gap-4">
+    <header className="flex justify-between max-[380px]:gap-4 ">
       <a href="/" className="flex items-center gap-1 max-[200px]:hidden">
         {icons.logo}
         <span className="font-bold text-xl max-[630px]:hidden">Skystay</span>
