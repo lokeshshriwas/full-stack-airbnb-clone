@@ -81,6 +81,7 @@ app.post("/login", async (req, res) => {
 
 app.get("/profile", (req, res) => {
   const { token } = req.cookies;
+ try {
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
@@ -90,6 +91,9 @@ app.get("/profile", (req, res) => {
   } else {
     res.json(null);
   }
+ } catch (error) {
+  console.log(error)
+ }
 });
 
 app.post("/logout", (req, res) => {
@@ -98,8 +102,10 @@ app.post("/logout", (req, res) => {
 
 app.post("/upload-by-link", async (req, res) => {
   const { link } = req.body;
-  const response = await cloudinary.uploader.upload(link, {folder: "skystay"})
-  res.json(response.url)
+  const response = await cloudinary.uploader.upload(link, {
+    folder: "skystay",
+  });
+  res.json(response.url);
 });
 
 const photoMiddleware = multer({ dest: "uploads" });
@@ -108,8 +114,10 @@ app.post("/upload", photoMiddleware.array("photos", 100), async (req, res) => {
   const uploadedFiles = [];
   for (let i = 0; i < req.files.length; i++) {
     const { path } = req.files[i];
-    const response = await cloudinary.uploader.upload(path, {folder: "skystay"})
-    const {url} = response
+    const response = await cloudinary.uploader.upload(path, {
+      folder: "skystay",
+    });
+    const { url } = response;
     uploadedFiles.push(url);
   }
   res.json(uploadedFiles);
@@ -127,7 +135,7 @@ app.post("/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
-    category
+    category,
   } = req.body;
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -144,7 +152,7 @@ app.post("/places", async (req, res) => {
       checkIn,
       checkOut,
       maxGuests,
-      category
+      category,
     });
     res.json(placeDoc);
   });
@@ -179,7 +187,7 @@ app.put("/places", async (req, res) => {
     checkIn,
     checkOut,
     maxGuests,
-    category
+    category,
   } = req.body;
 
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -198,7 +206,7 @@ app.put("/places", async (req, res) => {
         checkIn,
         checkOut,
         maxGuests,
-        category
+        category,
       });
       await placeDoc.save();
       res.json("ok");
@@ -216,34 +224,68 @@ app.get("/listings/:id", async (req, res) => {
   res.json(await Place.findById(id));
 });
 
-function getUserDataFromReq(req){
-  return new Promise ((resolve, reject)=>{
+function getUserDataFromReq(req) {
+  return new Promise((resolve, reject) => {
     jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
       if (err) throw err;
-      resolve(userData)
+      resolve(userData);
     });
   });
-};
+}
 
 app.post("/booking", async (req, res) => {
-  const userData =await getUserDataFromReq(req)
-  let { place, checkIn, checkOut, mobile, numberOfGuests, name, price } = req.body;
+  const userData = await getUserDataFromReq(req);
+  let { place, checkIn, checkOut, mobile, numberOfGuests, name, price } =
+    req.body;
   const bookingDoc = await Booking.create({
-    place, checkIn, checkOut, mobile, numberOfGuests, name, price, user: userData.id
-  })
-  res.json(bookingDoc)
-
+    place,
+    checkIn,
+    checkOut,
+    mobile,
+    numberOfGuests,
+    name,
+    price,
+    user: userData.id,
+  });
+  res.json(bookingDoc);
 });
 
-app.get("/booking", async (req, res)=>{
-  const userData = await getUserDataFromReq(req)
-  res.json( await Booking.find({user:userData.id}).populate("place"))
-})
+app.get("/booking", async (req, res) => {
+  const userData = await getUserDataFromReq(req);
+  res.json(await Booking.find({ user: userData.id }).populate("place"));
+});
 
-app.get("/filter/:category" , async (req, res)=>{
-  const {category} = req.params
-  const searchResult = await Place.find({category: category})
-  res.json(searchResult)
-})
+app.get("/filter/:category", async (req, res) => {
+  const { category } = req.params;
+  const searchResult = await Place.find({ category: category });
+  res.json(searchResult);
+});
+
+function sanitizeInput(input) {
+  return input.replace(/[^\w\s]/gi, '');
+}
+
+app.get("/search", async (req, res) => {
+ const {searchTerm} = req.query
+  try {
+    const searchQuery = sanitizeInput(searchTerm)
+    const mainSearch = new RegExp(searchQuery, 'i')
+    const response = await Place.find({
+      $or: [
+        { title: { $regex: mainSearch } },
+        { address: { $regex: mainSearch } },
+        { description: { $regex: mainSearch } },
+        { extraInfo: { $regex: mainSearch } },
+        { perks: { $regex: mainSearch } },
+       
+      ],
+    })
+    res.json(response)
+
+  } catch (error) {
+    console.log(error)
+  }
+
+});
 
 app.listen(3000);

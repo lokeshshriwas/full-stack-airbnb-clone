@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Filter from "../Search/FIlter";
+import Searchcontext from "../../Context/Searchcontext";
 
 const Home = () => {
+  const {searchResult} = useContext(Searchcontext)
   const [filter, setFilter] = useState("");
   const [listing, setListing] = useState([]);
   const [toggle, setToggle] = useState(false);
@@ -24,6 +26,12 @@ const Home = () => {
     }
     setFilter("");
   }, [filter]);
+
+  useEffect(()=>{
+    if(searchResult.length > 0){
+      setListing(searchResult)
+    }
+  }, [searchResult])
 
   return (
     <div>

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import icons from "../../../assets/icons/icons";
 import { Link, useLocation } from "react-router-dom";
+import userContext from "../../../Context/Usercontext";
 
 
 const AccountNav = () => {
-
+  const{user} = useContext(userContext)
     const {pathname }= useLocation()
     let subpage = pathname.split("/")?.[2]
     if(subpage === undefined){
@@ -12,7 +13,7 @@ const AccountNav = () => {
     }
 
   function linkClasses(type = null) {
-    let classes = "py-2 px-6 inline-flex gap-2";
+    let classes = "py-2 px-6 inline-flex gap-2 max-[630px]:text-xs flex items-center justify-center max-[630px]:px-2";
     if (type === subpage) {
       classes += " bg-primary text-white rounded-full";
     } else {
@@ -22,18 +23,18 @@ const AccountNav = () => {
   }
 
   return (
-    <nav className="w-full flex justify-center items-center mt-8 gap-2">
-      <Link to={"/account"} className={linkClasses("profile")}>
+    <nav className="w-full flex justify-center items-center mt-8 gap-2 max-[630px]-text-xs ">
+      <Link to={!user? "/register":"/account"} className={linkClasses("profile")}>
         {icons.accountProfile}
-        My Profile
+        <span className="">Profile</span> 
       </Link>
-      <Link to={"/account/booking"} className={linkClasses("booking")}>
+      <Link to={!user ? "/register" :"/account/booking"} className={linkClasses("booking")}>
         {icons.bookings}
-        My bookings
+        Bookings
       </Link>
-      <Link to={"/account/places"} className={linkClasses("places")}>
+      <Link to={!user ? "/register":"/account/places"} className={linkClasses("places")}>
         {icons.places}
-        My accommodations
+        Accommodations
       </Link>
     </nav>
   );
