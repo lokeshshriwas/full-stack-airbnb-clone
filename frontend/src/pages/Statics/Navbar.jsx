@@ -44,28 +44,27 @@ const Navbar = () => {
 
   return (
     <header className="flex justify-between max-[380px]:gap-4 ">
-      <a href="/" className="flex items-center gap-1 max-[200px]:hidden">
+      <Link to={"/"} className="flex items-center gap-1 max-[200px]:hidden">
         {icons.logo}
         <span className="font-bold text-xl max-[630px]:hidden">Skystay</span>
-      </a>
+      </Link>
 
       {!searchClicked ? (
         <div className="flex border border-gray-300 rounded-full py-2 px-4 gap-2 shadow-md shadow-gray-300 ">
-          <a href={"/"}>
+          <Link to={"/"}>
             <div>Anywhere</div>
-          </a>
+          </Link>
           <div className="border-l border-gray-300 max-[500px]:hidden"></div>
           <Link to={"/account/booking"}>
           <div className="max-[500px]:hidden">Your Bookings</div>
           
           </Link>
           <div className="border-l border-gray-300"></div>
-          <a
-            href={!user ? "/register" : "/account/places"}
-            className="max-[350px]:hidden"
+          <Link to={"/account/places/new"}
+            className="max-[400px]:hidden"
           >
-            <div className="text-gray-500 ">Add guests</div>
-          </a>
+            <div className="text-gray-500 ">Add New</div>
+          </Link>
           <button
             className="bg-primary text-white p-1 rounded-full"
             onClick={(e) => handleSearchBtnClick(e)}

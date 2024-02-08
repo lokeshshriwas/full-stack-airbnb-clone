@@ -18,7 +18,7 @@ const Formpage = () => {
   const [checkOut, setCheckOut] = useState("");
   const [maxGuests, setMaxGuests] = useState(1);
   const [price, setPrice] = useState(100);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [category, setCategory] = useState("");
 
   const navigate = useNavigate();
 
@@ -52,7 +52,7 @@ const Formpage = () => {
       checkIn,
       checkOut,
       maxGuests,
-      selectedCategory
+      category
     };
     if (id) {
       await axios.put("/places", { id, ...placeData });
@@ -79,7 +79,7 @@ const Formpage = () => {
       setCheckOut(data.checkOut);
       setMaxGuests(data.maxGuests);
       setPrice(data.price);
-      setSelectedCategory(data.category)
+      setCategory(data.category)
     });
   }, [id]);
 
@@ -118,7 +118,7 @@ const Formpage = () => {
         </div>
         <div>
         {preInput("Category", "Choose the property category")}
-          <PropertyDropdown selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+          <PropertyDropdown category={category} setCategory={setCategory} />
         </div>
       </div>
 

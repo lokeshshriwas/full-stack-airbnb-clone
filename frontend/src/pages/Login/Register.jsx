@@ -19,7 +19,7 @@ const Register = () => {
       password
     })
     alert("registeration successfull")
-    navigate("login")
+    navigate("/login")
    } catch (error) {
     alert("registration failed")
    }

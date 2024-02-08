@@ -22,17 +22,18 @@ import { useContext } from "react";
 axios.defaults.baseURL = import.meta.env.VITE_BASEURL
 axios.defaults.withCredentials = true;
 
-console.log(axios.defaults.baseURL)
-
 function App() {
   const {user} = useContext(userContext)
+  if(user === undefined){
+    <Navigate to={"/register"}/>
+  }
   return (
         <Routes>
           <Route path={"/"} element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/listings/:id" element={<ListingDetail />} />
+            <Route path="/listings/:id" element={user ? <ListingDetail /> : <Navigate to={"/login"}/>} />
             <Route path="/account" element={user ? <Profile/>: <Navigate to={"/login"}/>} />
             <Route path="/account/booking" element={user ? <BookingsPage/>: <Navigate to={"/login"}/>} />
             <Route path="/account/booking/:id" element={user ? <Bookingpage /> : <Navigate to={"/login"}/> } />

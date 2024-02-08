@@ -12,7 +12,7 @@ const Places = () => {
   return (
     <>
     <AccountNav/>
-    <div className="mt-8 w-full lg:w-1/2 md:w-5/6 m-auto">
+    <div className="mt-8 w-full lg:w-5/6 md:w-5/6 m-auto">
       {action !== "new" && (
         <div className="text-center">
           <Link

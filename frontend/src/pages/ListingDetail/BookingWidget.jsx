@@ -11,15 +11,15 @@ const BookingWidget = ({ details }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
-  const [redirect, setRedirect] = useState("")
-  const {user} = useContext(userContext)
+  const [redirect, setRedirect] = useState("");
+  const { user } = useContext(userContext);
 
-  useEffect(()=>{
-    if(user){
-      setName(user.username)
-      setEmail(user.email)
+  useEffect(() => {
+    if (user) {
+      setName(user.username);
+      setEmail(user.email);
     }
-  }, [user])
+  }, [user]);
 
   let numberOfNights = 0;
   if (checkIn && checkOut) {
@@ -30,8 +30,8 @@ const BookingWidget = ({ details }) => {
   }
 
   async function bookingThisPlace(e) {
-    e.preventDefault()
-    const response = await axios.post("/booking", {
+    e.preventDefault();
+    const data = {
       checkIn,
       checkOut,
       name,
@@ -40,15 +40,18 @@ const BookingWidget = ({ details }) => {
       numberOfGuests,
       place: details._id,
       price: numberOfNights * details.price * 1.18,
-    });
-    const bookingId = response.data._id
-    console.log(bookingId)
-
-    setRedirect(`/account/booking/${bookingId}`)
+    };
+    try {
+      const response = await axios.post("/booking", data);
+      const bookingId = response.data._id;
+      setRedirect(`/account/booking/${bookingId}`);
+    } catch (error) {
+      console.log("error sending request", error)
+    }
   }
 
-  if(redirect){
-    return <Navigate to={redirect}/>
+  if (redirect) {
+    return <Navigate to={redirect} />;
   }
 
   return (
@@ -57,10 +60,11 @@ const BookingWidget = ({ details }) => {
         Price: {details.price}/- per night
       </div>
       <div className="border rounded-2xl my-4">
-        <div className="flex ">
-          <div className=" py-3  px-2 ">
+        <div className="flex flex-col min-[500px]:flex-row">
+          <div className=" py-3 px-2 ">
             <label htmlFor="checkin">Check-In</label>
             <input
+              className="w-full px-4 rounded-2xl"
               type="date"
               id="checkin"
               value={checkIn}
@@ -70,6 +74,7 @@ const BookingWidget = ({ details }) => {
           <div className="py-3 px-2 border-l">
             <label htmlFor="checkout">Check-Out</label>
             <input
+              className="w-full px-4 rounded-2xl"
               type="date"
               id="checkout"
               value={checkOut}
@@ -83,6 +88,7 @@ const BookingWidget = ({ details }) => {
             className="w-full rounded-full py-1 px-2"
             type="number"
             value={numberOfGuests}
+            max={details.maxGuests}
             onChange={(e) => setNumberOfGuests(e.target.value)}
           />
         </div>
@@ -123,13 +129,18 @@ const BookingWidget = ({ details }) => {
         )}
       </div>
       <button
-        disabled = {!name || !email || !mobile}
+        disabled={!name || !email || !mobile}
         onClick={bookingThisPlace}
         className={`bg-primary text-white font-semibold w-full py-2 rounded-2xl mt-1 disabled:opacity-70`}
-
       >
         Book this place
-        {numberOfNights > 0 && <span className="text-xl"> ₹{numberOfNights * details.price * 1.18} <span className="text-xs">Including Taxes</span></span>}
+        {numberOfNights > 0 && (
+          <span className="text-xl">
+            {" "}
+            ₹{numberOfNights * details.price * 1.18}{" "}
+            <span className="text-xs">Including Taxes</span>
+          </span>
+        )}
       </button>
     </div>
   );

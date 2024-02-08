@@ -25,18 +25,18 @@ const propertyCategories = [
   "Other",
 ];
 
-const PropertyDropdown = ({ selectedCategory, setSelectedCategory }) => {
+const PropertyDropdown = ({ category, setCategory }) => {
   const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
+    setCategory(event.target.value);
   };
 
   return (
     <div>
       <select
-        className="border rounded-full w-3/5 mt-2 p-2"
+        className="border rounded-full w-full mt-2 p-2"
         id="propertyCategory"
         name="propertyCategory"
-        value={selectedCategory}
+        value={category}
         onChange={handleCategoryChange}
       >
         <option value="">Select category</option>
@@ -46,7 +46,7 @@ const PropertyDropdown = ({ selectedCategory, setSelectedCategory }) => {
           </option>
         ))}
       </select>
-      {selectedCategory && <p className="text-xl mt-2">You selected: <b className="text-2xl text-gray-600 underline">{selectedCategory}</b></p>}
+      {category && <p className="text-xl mt-2">You selected: <b className="text-2xl text-gray-600 underline">{category}</b></p>}
     </div>
   );
 };

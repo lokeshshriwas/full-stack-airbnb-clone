@@ -37,7 +37,7 @@ const Home = () => {
     <div>
       <Filter setFilter={setFilter} setToggle={setToggle} toggle={toggle} />
 
-      {listing.length > 0 ? (
+      {listing?.length > 0 &&  (
         <div className=" m-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-4 mt-8">
           {listing?.map((list) => (
             <Link to={`/listings/${list._id}`} key={list._id}>
@@ -66,11 +66,7 @@ const Home = () => {
             </Link>
           ))}
         </div>
-      ) : (
-        <div className="w-full h-full  flex items-center justify-center ">
-          <h1>Sorry no Data Available</h1>
-        </div>
-      )}
+      ) }
     </div>
   );
 };

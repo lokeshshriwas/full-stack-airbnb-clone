@@ -22,7 +22,7 @@ const ListingDetail = () => {
   }, [id]);
 
   return (
-    <div className="mt-4 w-full px-8 lg:w-5/6 mx-auto">
+    <div className="mt-4 w-full px-0 sm:px-8 lg:w-5/6 mx-auto ">
       <h1 className="text-2xl font-semibold">{details.title}</h1>
       <div className="flex gap-1 items-center ">
         {icons.location}

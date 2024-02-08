@@ -22,7 +22,7 @@ const BookingsPage = () => {
       <div className="flex flex-col items-center mt-4">
         {bookings?.length > 0 &&
           bookings.map((booking) => (
-            <div className="flex gap-4 bg-gray-200 rounded-2xl w-full lg:w-3/5 overflow-hidden mt-4" key={booking._id}>
+            <div className="flex gap-4 bg-gray-200 rounded-2xl w-full lg:w-5/6 overflow-hidden mt-4" key={booking._id}>
               <div className="w-48 flex">
                 <Placeimg
                   place={booking.place}
