@@ -16,16 +16,28 @@ const booking = require("./controller/booking.js");
 const search = require("./controller/search.js");
 const Booking = require("./models/booking.js");
 
+// const corsOptions = {
+//   origin: "https://skystay.netlify.app",
+//   credentials: true,
+//   optionSuccessStatus: 200,
+//   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+// };
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://skystay.netlify.app");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type")
+  // res.setHeader("Access-Control-Allow-Headers", "X-Requested-With")
+
+  next()
+});
+
+app.use(cors(corsOptions))
+
 mongoose.connect(process.env.MONGODB_URL);
 
-const corsOptions = {
-  origin: ["https://skystay.netlify.app"],
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-
 // middlewares
-app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(cookieParser());
@@ -58,7 +70,7 @@ app.get("/listings/:id", listing.getListingDetail);
 
 // Creating new booking and getting booking details
 app.get("/booking", booking.getBooking);
-app.post("/booking", booking.newBooking)
+app.post("/booking", booking.newBooking);
 
 // filter and searching
 app.get("/filter/:category", search.filterByCategory);

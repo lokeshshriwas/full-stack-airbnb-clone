@@ -32,7 +32,8 @@ module.exports.login = async (req, res) => {
           {},
           (err, token) => {
             if (err) throw err;
-            res.cookie("token", token).json(userDoc);
+            res.cookie("token", token, { httpsOnly: true, secure: true }).json(userDoc);
+
           }
         );
       } else {

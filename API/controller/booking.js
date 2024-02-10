@@ -17,7 +17,7 @@ module.exports.newBooking = async (req, res) => {
       price,
       user: userData.id,
     });
-    res.json(bookingDoc);
+    res.json(bookingDoc , {Credential: token});
   });
 };
 

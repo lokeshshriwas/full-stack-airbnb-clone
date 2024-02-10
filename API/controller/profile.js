@@ -23,8 +23,10 @@ module.exports.getProfile = (req, res) => {
 module.exports.myListedPlaces = (req, res) => {
   try {
     const { token } = req.cookies;
+    console.log(token)
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-      if (err) throw err;
+      console.log(userData)
+      if (err) (console.log("Error in finding verification of token", err));
       const { id } = userData;
       res.json(await Place.find({ owner: id }));
     });
