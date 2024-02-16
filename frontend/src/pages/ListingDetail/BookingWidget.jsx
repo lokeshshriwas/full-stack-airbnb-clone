@@ -29,8 +29,11 @@ const BookingWidget = ({ details }) => {
     );
   }
 
+
+
   async function bookingThisPlace(e) {
     e.preventDefault();
+    const token = localStorage.getItem("token")
     const data = {
       checkIn,
       checkOut,
@@ -40,13 +43,14 @@ const BookingWidget = ({ details }) => {
       numberOfGuests,
       place: details._id,
       price: numberOfNights * details.price * 1.18,
+      token,
     };
     try {
-      const response = await axios.post("/booking", data);
+      const response = await axios.post("/api/booking", data);
       const bookingId = response.data._id;
       setRedirect(`/account/booking/${bookingId}`);
     } catch (error) {
-      console.log("error sending request", error)
+      console.log("error sending request", error);
     }
   }
 
@@ -130,7 +134,7 @@ const BookingWidget = ({ details }) => {
       </div>
       <button
         disabled={!name || !email || !mobile}
-        onClick={bookingThisPlace}
+        onClick={(e) => bookingThisPlace(e)}
         className={`bg-primary text-white font-semibold w-full py-2 rounded-2xl mt-1 disabled:opacity-70`}
       >
         Book this place

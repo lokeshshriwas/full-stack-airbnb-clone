@@ -40,6 +40,7 @@ const Formpage = () => {
   }
 
   async function savePlace(e) {
+    const {token} = localStorage.getItem("token")
     e.preventDefault();
     const placeData = {
       title,
@@ -52,12 +53,13 @@ const Formpage = () => {
       checkIn,
       checkOut,
       maxGuests,
-      category
+      category,
+      token
     };
     if (id) {
-      await axios.put("/places", { id, ...placeData });
+      await axios.put("/api/places", { id, ...placeData });
     } else {
-      await axios.post("/places", placeData);
+      await axios.post("/api/places", placeData);
     }
 
     navigate("/account/places");
@@ -67,7 +69,7 @@ const Formpage = () => {
     if (!id) {
       return;
     }
-    axios.get(`/places/${id}`).then((response) => {
+    axios.get(`/api/places/${id}`).then((response) => {
       const { data } = response;
       setTitle(data.title);
       setAddress(data.address);

@@ -15,7 +15,7 @@ const ListingDetail = () => {
     if (!id) {
       return;
     }
-    axios.get(`/listings/${id}`).then((response) => {
+    axios.get(`/api/listings/${id}`).then((response) => {
       const { data } = response;
       setDetails(data);
     });

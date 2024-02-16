@@ -14,24 +14,13 @@ const upload = require("./controller/upload.js");
 const listing = require("./controller/listing.js");
 const booking = require("./controller/booking.js");
 const search = require("./controller/search.js");
-const Booking = require("./models/booking.js");
 
-// const corsOptions = {
-//   origin: "https://skystay.netlify.app",
-//   credentials: true,
-//   optionSuccessStatus: 200,
-//   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
-// };
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://skystay.netlify.app");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type")
-  // res.setHeader("Access-Control-Allow-Headers", "X-Requested-With")
-
-  next()
-});
+const corsOptions = {
+  origin: "https://skystay.netlify.app",
+  credentials: true,
+  optionSuccessStatus: 200,
+  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+};
 
 app.use(cors(corsOptions))
 
@@ -45,36 +34,39 @@ app.use(express.urlencoded({ extended: false }));
 const photoMiddleware = multer({ dest: "uploads" });
 
 // personal details
-app.post("/register", auth.register);
-app.post("/login", auth.login);
-app.post("/logout", auth.logout);
+app.get("/test", (req, res)=>{
+  res.send("hello")
+})
+app.post("/api/register", auth.register);
+app.post("/api/login", auth.login);
+app.post("/api/logout", auth.logout);
 
 // profile details
-app.get("/profile", profile.getProfile);
-app.get("/places", profile.myListedPlaces);
-app.post("/places", profile.uploadNewPlace);
-app.put("/places", profile.editPlaceDetails);
-app.get("/places/:id", profile.placeInDetail);
+app.get("/api/profile", profile.getProfile);
+app.get("/api/places", profile.myListedPlaces);
+app.post("/api/places", profile.uploadNewPlace);
+app.put("/api/places", profile.editPlaceDetails);
+app.get("/api/places/:id", profile.placeInDetail);
 
 // uploading images
-app.post("/upload-by-link", upload.uploadByLink);
+app.post("/api/upload-by-link", upload.uploadByLink);
 app.post(
-  "/upload",
+  "/api/upload",
   photoMiddleware.array("photos", 100),
   upload.uploadFromDevice
 );
 
 // getting all listings and detail of listing
-app.get("/listings", listing.getListings);
-app.get("/listings/:id", listing.getListingDetail);
+app.get("/api/listings", listing.getListings);
+app.get("/api/listings/:id", listing.getListingDetail);
 
 // Creating new booking and getting booking details
-app.get("/booking", booking.getBooking);
-app.post("/booking", booking.newBooking);
+app.get("/api/booking", booking.getBooking);
+app.post("/api/booking", booking.newBooking);
 
 // filter and searching
-app.get("/filter/:category", search.filterByCategory);
-app.get("/search", search.filterBySearch);
+app.get("/api/filter/:category", search.filterByCategory);
+app.get("/api/search", search.filterBySearch);
 
 app.listen(port, () => {
   console.log(`Server is running on Port: ${port}`);

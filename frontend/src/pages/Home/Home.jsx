@@ -5,13 +5,13 @@ import Filter from "../Search/FIlter";
 import Searchcontext from "../../Context/Searchcontext";
 
 const Home = () => {
-  const {searchResult} = useContext(Searchcontext)
+  const { searchResult } = useContext(Searchcontext);
   const [filter, setFilter] = useState("");
   const [listing, setListing] = useState([]);
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
-    axios.get("/listings").then((response) => {
+    axios.get("/api/listings").then((response) => {
       const { data } = response;
       setListing(data);
     });
@@ -19,7 +19,7 @@ const Home = () => {
 
   useEffect(() => {
     if (filter) {
-      axios.get(`/filter/${filter}`).then((response) => {
+      axios.get(`/api/filter/${filter}`).then((response) => {
         const { data } = response;
         setListing(data);
       });
@@ -27,17 +27,17 @@ const Home = () => {
     setFilter("");
   }, [filter]);
 
-  useEffect(()=>{
-    if(searchResult.length > 0){
-      setListing(searchResult)
+  useEffect(() => {
+    if (searchResult.length > 0) {
+      setListing(searchResult);
     }
-  }, [searchResult])
+  }, [searchResult]);
 
   return (
     <div>
       <Filter setFilter={setFilter} setToggle={setToggle} toggle={toggle} />
 
-      {listing?.length > 0 &&  (
+      {listing?.length > 0 && (
         <div className=" m-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-4 mt-8">
           {listing?.map((list) => (
             <Link to={`/listings/${list._id}`} key={list._id}>
@@ -66,7 +66,7 @@ const Home = () => {
             </Link>
           ))}
         </div>
-      ) }
+      )}
     </div>
   );
 };

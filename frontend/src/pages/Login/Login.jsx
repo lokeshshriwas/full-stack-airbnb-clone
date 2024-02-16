@@ -1,7 +1,7 @@
-import axios from "axios";
 import React, { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import userContext from "../../Context/Usercontext";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +12,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const userInfo = await axios.post("/login", {
+      const userInfo = await axios.post("/api/login", {
         email,
         password,
       });
@@ -22,6 +22,7 @@ const Login = () => {
       } else if (userInfo.data === "password incorrect") {
         alert("password Incorrect");
       } else {
+        localStorage.setItem("token", userInfo.data.token )
         setUser(userInfo.data);
         setRedirect(true);
         alert("successfully login");

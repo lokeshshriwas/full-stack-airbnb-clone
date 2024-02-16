@@ -7,7 +7,7 @@ const PlacesPage = () => {
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
-    axios.get("/places").then(({ data }) => setPlaces(data));
+    axios.get(`/api/places?token=${localStorage.getItem("token")}`).then(({ data }) => setPlaces(data));
   }, []);
 
   return (

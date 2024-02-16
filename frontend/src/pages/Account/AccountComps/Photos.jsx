@@ -8,7 +8,7 @@ const Photos = ({ photos, setPhotos }) => {
 
   async function addPhotoByLink(e) {
     e.preventDefault();
-    const { data: filename } = await axios.post("/upload-by-link", {
+    const { data: filename } = await axios.post("/api/upload-by-link", {
       link: photoLink,
     });
     setPhotos((prev) => {

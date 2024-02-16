@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Account from "../Account/Account";
 import axios from "axios";
 import Placeimg from "./Placeimg";
-import { differenceInCalendarDays, format } from "date-fns";
 import icons from "../../assets/icons/icons";
 import BookingDates from "./BookingDates";
 
@@ -10,10 +9,12 @@ const BookingsPage = () => {
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    axios.get("/booking").then((response) => {
-      const { data } = response;
-      setBookings(data);
-    });
+    axios
+      .get(`/api/booking?token=${localStorage.getItem("token")}`)
+      .then((response) => {
+        const { data } = response;
+        setBookings(data);
+      });
   }, []);
 
   return (
@@ -22,7 +23,10 @@ const BookingsPage = () => {
       <div className="flex flex-col items-center mt-4">
         {bookings?.length > 0 &&
           bookings.map((booking) => (
-            <div className="flex gap-4 bg-gray-200 rounded-2xl w-full lg:w-5/6 overflow-hidden mt-4" key={booking._id}>
+            <div
+              className="flex gap-4 bg-gray-200 rounded-2xl w-full lg:w-5/6 overflow-hidden mt-4"
+              key={booking._id}
+            >
               <div className="w-48 flex">
                 <Placeimg
                   place={booking.place}
@@ -31,7 +35,7 @@ const BookingsPage = () => {
               </div>
               <div className="py-3 pr-3 grow">
                 <h2 className=" text-sm sm:text-xl">{booking.place.title}</h2>
-              <BookingDates booking={booking}/>
+                <BookingDates booking={booking} />
                 <div className="text-sm sm:text-xl flex gap-2 mt-1">
                   {icons.card}
                   Total price: ₹{booking.price}

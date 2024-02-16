@@ -9,8 +9,8 @@ import {
   Profile,
   Places,
   BookingsPage,
-  Bookingpage,
-  Notfound
+  Notfound,
+  SingleBookingPage,
 } from "./pages";
 
 import Layout from "./Layout";
@@ -19,33 +19,55 @@ import userContext from "./Context/Usercontext";
 import Formpage from "./pages/Account/AccountComps/Formpage";
 import { useContext } from "react";
 
-axios.defaults.baseURL = import.meta.env.VITE_BASEURL
+axios.defaults.baseURL = import.meta.env.VITE_BASEURL;
 axios.defaults.withCredentials = true;
 
-
 function App() {
-  const {user} = useContext(userContext)
-  if(user === undefined){
-    <Navigate to={"/register"}/>
+  const { user } = useContext(userContext);
+  if (user === undefined) {
+    <Navigate to={"/register"} />;
   }
   return (
-        <Routes>
-          <Route path={"/"} element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/listings/:id" element={user ? <ListingDetail /> : <Navigate to={"/login"}/>} />
-            <Route path="/account" element={user ? <Profile/>: <Navigate to={"/login"}/>} />
-            <Route path="/account/booking" element={user ? <BookingsPage/>: <Navigate to={"/login"}/>} />
-            <Route path="/account/booking/:id" element={user ? <Bookingpage /> : <Navigate to={"/login"}/> } />
-            <Route path="/account/places" element={user ? <Places />: <Navigate to={"/login"}/>} />
-            <Route path="/account/places/new" element={user ? <Formpage />: <Navigate to={"/login"}/>} />
-            <Route path="/account/places/:id" element={user ? <Formpage />: <Navigate to={"/login"}/>} />
-            <Route path="/account/:subpage/:action" element={user ? <Account />: <Navigate to={"/login"}/>} />
-            <Route path= "*" element={<Notfound/>}/>
-          </Route>
-        </Routes>
-      
+    <Routes>
+      <Route path={"/"} element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/listings/:id"
+          element={user ? <ListingDetail /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/account"
+          element={user ? <Profile /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/account/booking"
+          element={user ? <BookingsPage /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/account/booking/:id"
+          element={user ? <SingleBookingPage /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/account/places"
+          element={user ? <Places /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/account/places/new"
+          element={user ? <Formpage /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/account/places/:id"
+          element={user ? <Formpage /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/account/:subpage/:action"
+          element={user ? <Account /> : <Navigate to={"/login"} />}
+        />
+        <Route path="*" element={<Notfound />} />
+      </Route>
+    </Routes>
   );
 }
 

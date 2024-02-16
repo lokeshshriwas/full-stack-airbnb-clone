@@ -10,7 +10,8 @@ const Profile = () => {
   const navigate = useNavigate()
 
   async function handleLogout() {
-    await axios.post("/logout");
+    await axios.post("/api/logout");
+    localStorage.removeItem("token")
     setUser(null);
     navigate("/")
   }

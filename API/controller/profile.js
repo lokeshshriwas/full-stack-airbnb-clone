@@ -21,11 +21,9 @@ module.exports.getProfile = (req, res) => {
 };
 
 module.exports.myListedPlaces = (req, res) => {
+  const {token} = req.query
   try {
-    const { token } = req.cookies;
-    console.log(token)
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
-      console.log(userData)
       if (err) (console.log("Error in finding verification of token", err));
       const { id } = userData;
       res.json(await Place.find({ owner: id }));
@@ -36,7 +34,6 @@ module.exports.myListedPlaces = (req, res) => {
 };
 
 module.exports.editPlaceDetails = async (req, res) => {
-  const { token } = req.cookies;
   const {
     id,
     price,
@@ -50,6 +47,7 @@ module.exports.editPlaceDetails = async (req, res) => {
     checkOut,
     maxGuests,
     category,
+    token
   } = req.body;
 
   try {
@@ -93,8 +91,8 @@ module.exports.uploadNewPlace = async (req, res) => {
     checkOut,
     maxGuests,
     category,
+    token
   } = req.body;
-  const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, userData) => {
     if (err) throw err;
     const placeDoc = await Place.create({

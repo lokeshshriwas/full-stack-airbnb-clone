@@ -23,7 +23,7 @@ const propertyCategories = [
     "Other",
   ];
   
-  import apartment from "../filterImages/Apartment.png";
+  import apartment from "../filterImages/apartment.png";
   import house from "../filterImages/home.png";
   import villa from "../filterImages/villa.png";
   import cottage from "../filterImages/cottage.png";

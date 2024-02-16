@@ -32,8 +32,12 @@ module.exports.login = async (req, res) => {
           {},
           (err, token) => {
             if (err) throw err;
-            res.cookie("token", token, { httpsOnly: true, secure: true }).json(userDoc);
-
+            res.cookie("token", token, { httpsOnly: true, secure: true }).json({
+              _id: userDoc._id,
+              username: userDoc.username,
+              email: userDoc.email,
+              token: token,
+            })
           }
         );
       } else {
@@ -51,17 +55,3 @@ module.exports.logout = (req, res) => {
   res.cookie("token", "").json(true);
 };
 
-module.exports.getUserDataFromReq = (req) => {
-  try {
-    return new Promise((resolve, reject) => {
-      jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
-        if (err) (console.log("not getting user", err));
-        if(userData === Object){
-          return resolve(userData);
-        }
-      });
-    });
-  } catch (error) {
-    console.log("Error in token", error)
-  }
-};

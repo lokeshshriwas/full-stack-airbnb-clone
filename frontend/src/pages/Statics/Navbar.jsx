@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import userContext from "../../Context/Usercontext";
 import Searchcontext from "../../Context/Searchcontext";
 import axios from "axios";
-import Menubar from "./menubar";
+import Menubar from "./Menubar";
 
 
 const Navbar = () => {
@@ -24,7 +24,7 @@ const Navbar = () => {
     e.preventDefault();
     if (searchTerm.length > 0) {
       setSearchResult([]);
-      const response = await axios.get("/search", {
+      const response = await axios.get("/api/search", {
         params: {
           searchTerm,
         },

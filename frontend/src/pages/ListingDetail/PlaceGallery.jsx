@@ -53,7 +53,7 @@ const PlaceGallery = ({ details }) => {
             onClick={() => {
               setShowPhotos(true);
             }}
-            className="aspect-square cursor-pointer"
+            className="aspect-square cursor-pointer w-full h-full object-cover"
             src={details?.photos[1]}
             alt="image"
           />
@@ -64,7 +64,7 @@ const PlaceGallery = ({ details }) => {
               onClick={() => {
                 setShowPhotos(true);
               }}
-              className="aspect-square object-cover relative top-2 cursor-pointer"
+              className="aspect-square object-cover relative top-2 cursor-pointer w-full h-full"
               src={details?.photos[2]}
               alt="image"
             />
