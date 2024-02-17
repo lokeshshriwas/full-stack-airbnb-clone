@@ -16,7 +16,7 @@ const booking = require("./controller/booking.js");
 const search = require("./controller/search.js");
 
 const corsOptions = {
-  origin: "https://skystay.netlify.app",
+  origin: "http://localhost:5173",
   credentials: true,
   optionSuccessStatus: 200,
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],

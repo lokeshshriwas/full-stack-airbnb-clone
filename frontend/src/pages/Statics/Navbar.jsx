@@ -10,7 +10,7 @@ import Menubar from "./Menubar";
 
 const Navbar = () => {
   const navigate = useNavigate()
-  const { searchTerm, setSearchTerm, setSearchResult } =
+  const { searchTerm, setSearchTerm, setSearchResult, reload, setReload } =
     useContext(Searchcontext);
 
   const [searchClicked, setSearchClicked] = useState(false);
@@ -23,7 +23,8 @@ const Navbar = () => {
   };
 
   const reRender = ()=>{
-    navigate(0)
+    setReload(!reload)
+    navigate("/")
   }
 
   const handleSearch = async (e) => {
