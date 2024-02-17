@@ -29,7 +29,7 @@ module.exports.login = async (req, res) => {
         jwt.sign(
           { email: userDoc.email, id: userDoc._id },
           jwtSecret,
-          {},
+          {expiresIn: "30d"},
           (err, token) => {
             if (err) throw err;
             res.cookie("token", token, { httpsOnly: true, secure: true }).json({

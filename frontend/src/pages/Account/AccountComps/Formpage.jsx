@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PerksLable from "./PerksLable";
 import axios from "axios";
 import Photos from "./Photos";
 import PropertyDropdown from "./Category";
+import userContext from "../../../Context/Usercontext";
 
 const Formpage = () => {
   const { id } = useParams();
+  const {user} =  useContext(userContext)
 
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
@@ -40,7 +42,7 @@ const Formpage = () => {
   }
 
   async function savePlace(e) {
-    const {token} = localStorage.getItem("token")
+    const token = user.token
     e.preventDefault();
     const placeData = {
       title,

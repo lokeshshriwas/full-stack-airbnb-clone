@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import userContext from "../../Context/Usercontext";
 import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [redirect, setRedirect] = useState(false);
   const { setUser } = useContext(userContext);
+  const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,19 +22,15 @@ const Login = () => {
       } else if (userInfo.data === "password incorrect") {
         alert("password Incorrect");
       } else {
-        localStorage.setItem("token", userInfo.data.token )
+        localStorage.setItem("userInfo", JSON.stringify(userInfo.data))
         setUser(userInfo.data);
-        setRedirect(true);
+        navigate("/")
         alert("successfully login");
       }
     } catch (error) {
       alert("login failed");
     }
   };
-
-  if (redirect) {
-    return <Navigate to={"/"} />;
-  }
 
   return (
     <div className="h-screen">

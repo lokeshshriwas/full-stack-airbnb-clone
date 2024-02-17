@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import userContext from "../../Context/Usercontext";
 import Searchcontext from "../../Context/Searchcontext";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Menubar from "./Menubar";
 
 
 const Navbar = () => {
+  const navigate = useNavigate()
   const { searchTerm, setSearchTerm, setSearchResult } =
     useContext(Searchcontext);
 
@@ -19,6 +21,10 @@ const Navbar = () => {
     e.preventDefault();
     setSearchClicked(!searchClicked);
   };
+
+  const reRender = ()=>{
+    navigate(0)
+  }
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -44,16 +50,16 @@ const Navbar = () => {
 
   return (
     <header className="flex justify-between max-[380px]:gap-4 ">
-      <Link to={"/"} className="flex items-center gap-1 max-[200px]:hidden">
+      <div onClick={reRender} className="flex items-center gap-1 max-[200px]:hidden cursor-pointer">
         {icons.logo}
         <span className="font-bold text-xl max-[630px]:hidden">Skystay</span>
-      </Link>
+      </div>
 
       {!searchClicked ? (
         <div className="flex border border-gray-300 rounded-full py-2 px-4 gap-2 shadow-md shadow-gray-300 ">
-          <Link to={"/"}>
+          <div onClick={reRender} className="cursor-pointer" >
             <div>Anywhere</div>
-          </Link>
+          </div>
           <div className="border-l border-gray-300 max-[500px]:hidden"></div>
           <Link to={"/account/booking"}>
           <div className="max-[500px]:hidden">Your Bookings</div>

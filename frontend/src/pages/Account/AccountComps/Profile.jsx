@@ -11,11 +11,10 @@ const Profile = () => {
 
   async function handleLogout() {
     await axios.post("/api/logout");
-    localStorage.removeItem("token")
+    localStorage.removeItem("userInfo")
     setUser(null);
     navigate("/")
   }
-
 
 
   return (

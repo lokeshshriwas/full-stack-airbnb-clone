@@ -1,13 +1,15 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Placeimg from "../../Booking/Placeimg";
+import userContext from "../../../Context/Usercontext";
 
 const PlacesPage = () => {
   const [places, setPlaces] = useState([]);
+  const {user} =  useContext(userContext)
 
   useEffect(() => {
-    axios.get(`/api/places?token=${localStorage.getItem("token")}`).then(({ data }) => setPlaces(data));
+    axios.get(`/api/places?token=${user.token}`).then(({ data }) => setPlaces(data));
   }, []);
 
   return (

@@ -1,17 +1,19 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AddressLink from "../ListingDetail/AddressLink";
 import PlaceGallery from "../ListingDetail/PlaceGallery";
 import BookingDates from "./BookingDates";
+import userContext from "../../Context/Usercontext";
 
 const SingleBookingPage = () => {
   const { id } = useParams();
   const [booking, setBooking] = useState(null);
+  const {user} =  useContext(userContext)
 
   useEffect(() => {
     if (id) {
-      axios.get(`/api/booking?token=${localStorage.getItem("token")}`).then((response) => {
+      axios.get(`/api/booking?token=${user.token}`).then((response) => {
         const foundBooking = response.data.find(({ _id }) => _id === id);
         if (foundBooking) {
           setBooking(foundBooking);

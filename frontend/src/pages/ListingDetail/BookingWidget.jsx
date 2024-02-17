@@ -33,7 +33,6 @@ const BookingWidget = ({ details }) => {
 
   async function bookingThisPlace(e) {
     e.preventDefault();
-    const token = localStorage.getItem("token")
     const data = {
       checkIn,
       checkOut,
@@ -43,7 +42,7 @@ const BookingWidget = ({ details }) => {
       numberOfGuests,
       place: details._id,
       price: numberOfNights * details.price * 1.18,
-      token,
+      token: user.token,
     };
     try {
       const response = await axios.post("/api/booking", data);

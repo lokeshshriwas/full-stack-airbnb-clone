@@ -26,13 +26,15 @@ function App() {
   const { user } = useContext(userContext);
   if (user === undefined) {
     <Navigate to={"/register"} />;
+  } else{
+    <Navigate to={"/"}/>
   }
   return (
     <Routes>
       <Route path={"/"} element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={!user ? <Login />: <Navigate to={"/"}/>} />
+        <Route path="/register" element={!user ? <Register />: <Navigate to={"/"}/>} />
         <Route
           path="/listings/:id"
           element={user ? <ListingDetail /> : <Navigate to={"/login"} />}
